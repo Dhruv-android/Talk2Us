@@ -1,7 +1,6 @@
 package com.dapp.talk2us.ui.login
 
 import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -16,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.dapp.talk2us.R
+import com.dapp.talk2us.utils.PrefManager
 
 class LoginActivity : AppCompatActivity() {
 
@@ -25,7 +25,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_login)
-        startActivity(Intent(applicationContext, WelcomeActivity::class.java))
+        PrefManager.putBoolean(R.string.first_time, false)
 
         val username = findViewById<EditText>(R.id.username)
         val password = findViewById<EditText>(R.id.password)

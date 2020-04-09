@@ -1,16 +1,17 @@
 package com.dapp.talk2us.ui.login
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.dapp.talk2us.R
+import com.dapp.talk2us.utils.PrefManager
 import com.google.android.material.tabs.TabLayout
 
 class WelcomeActivity : AppCompatActivity() {
@@ -35,6 +36,9 @@ class WelcomeActivity : AppCompatActivity() {
             if (position == layoutArray?.size?.minus(1)) {
                 skip?.visibility = View.GONE
                 next?.text = getString(R.string.got_it)
+            } else {
+                skip?.visibility = View.VISIBLE
+                next?.text = getString(R.string.got_it)
             }
         }
 
@@ -44,7 +48,9 @@ class WelcomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_welcome)
-
+        if (PrefManager.getBoolean(R.string.first_time, true)) {
+            startActivity(Intent(applicationContext, LoginActivity::class.java))
+        }
         skip = findViewById(R.id.welcome_skip)
         next = findViewById(R.id.welcome_next)
         tabLayout = findViewById(R.id.welcome_tab_layout)
@@ -57,11 +63,7 @@ class WelcomeActivity : AppCompatActivity() {
         viewPager?.addOnPageChangeListener(viewPagerChangeListener)
 
         skip?.setOnClickListener {
-            Toast.makeText(
-                applicationContext,
-                "Not yet implemented",
-                Toast.LENGTH_SHORT
-            ).show()
+            startActivity(Intent(applicationContext, LoginActivity::class.java))
         }
         next?.setOnClickListener {
             val current = getLayoutPosition()
@@ -71,8 +73,7 @@ class WelcomeActivity : AppCompatActivity() {
                     //  to next screen
                     viewPager?.currentItem = current
                 } else {
-                    Toast.makeText(applicationContext, "Not yet implemented", Toast.LENGTH_SHORT)
-                        .show()
+                    startActivity(Intent(applicationContext, LoginActivity::class.java))
                 }
             }
 
