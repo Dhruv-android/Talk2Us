@@ -1,13 +1,12 @@
 package com.dapp.talk2us.ui.login
 
+import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import android.util.Patterns
+import com.dapp.talk2us.R
 import com.dapp.talk2us.data.LoginRepository
 import com.dapp.talk2us.data.Result
-
-import com.dapp.talk2us.R
 
 class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel() {
 
@@ -52,4 +51,6 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
     private fun isPasswordValid(password: String): Boolean {
         return password.length > 5
     }
+
+
 }
