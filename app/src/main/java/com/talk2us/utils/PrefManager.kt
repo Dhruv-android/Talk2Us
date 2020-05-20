@@ -17,4 +17,13 @@ object PrefManager {
     fun getBoolean(preferenceKey: Int, defaultValue: Boolean): Boolean {
         return preference.getBoolean(context.getString(preferenceKey), defaultValue)
     }
+
+    fun putString(preferenceKey: Int, preferenceValue: String) {
+        preference.edit().putString(context.getString(preferenceKey), preferenceValue).apply()
+    }
+
+    fun getString(preferenceKey: Int, defaultValue: String): String? {
+        return preference.getString(context.getString(preferenceKey), defaultValue)
+    }
+
 }

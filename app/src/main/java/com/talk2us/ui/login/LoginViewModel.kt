@@ -18,6 +18,7 @@ class LoginViewModel : ViewModel() {
     private val _progress = MutableLiveData<Boolean>()
     val progress: LiveData<Boolean> = _progress
 
+    public var phone:String=""
     private val _codeSent = MutableLiveData<Boolean>()
     val codeSent: LiveData<Boolean> = _codeSent
 
@@ -27,6 +28,7 @@ class LoginViewModel : ViewModel() {
     public var mVerificationID = ""
 
     fun sendCode(phone: String) {
+        this.phone=phone
         _progress.postValue(true)
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
             "+91$phone",

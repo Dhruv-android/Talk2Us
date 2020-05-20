@@ -12,5 +12,8 @@ data class Message(
     val word: String,
     val timestamp: String,
     var sent: Boolean,
-    val seen: Boolean
-)
+    val seen: Boolean,
+    val sentFrom:String
+){
+    constructor(): this("","",false,false,"Client")
+}

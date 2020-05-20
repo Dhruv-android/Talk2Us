@@ -18,7 +18,7 @@ import java.sql.Timestamp
  * This is the backend. The database. This used to be done by the OpenHelper.
  * The fact that this has very few comments emphasizes its coolness.
  */
-@Database(entities = [Message::class], version = 1)
+@Database(entities = [Message::class], version = 2)
 abstract class ChatDatabase : RoomDatabase() {
 
     abstract fun wordDao(): ChatDao
@@ -72,7 +72,7 @@ abstract class ChatDatabase : RoomDatabase() {
         fun populateDatabase(wordDao: ChatDao) {
             // Start the app with a clean database every time.
             // Not needed if you only populate on creation.
-            val word = Message("Hello", "YO",false,false)
+            val word = Message("Hello", "YO",false,false,"Client")
             wordDao.sendMessage(word)
             wordDao.sendMessage(word)
             wordDao.sendMessage(word)

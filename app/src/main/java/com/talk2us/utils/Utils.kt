@@ -2,15 +2,29 @@ package com.talk2us.utils
 
 import android.widget.Toast
 import com.talk2us.MainApplication
+import com.talk2us.models.Counsellor
 import java.sql.Timestamp
+import java.util.*
 
 class Utils {
-    companion object{
-        fun toast(str:String){
-            Toast.makeText(MainApplication.instance.applicationContext,str,Toast.LENGTH_SHORT).show()
+    companion object {
+        fun toast(str: String) {
+            Toast.makeText(MainApplication.instance.applicationContext, str, Toast.LENGTH_SHORT)
+                .show()
         }
-        fun getCurrentTime():Timestamp{
+
+        fun getCurrentTime(): Timestamp {
             return Timestamp(232)
+        }
+
+        fun sortList(list: List<Counsellor?>): List<Counsellor?> {
+            val comparator = compareBy<Counsellor?> { it?.clients }
+            return list.sortedWith(comparator)
+        }
+
+        fun getTime():String{
+            val date=Calendar.getInstance().time
+            return date.toString()
         }
     }
 }

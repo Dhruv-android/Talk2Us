@@ -12,7 +12,6 @@ import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import com.talk2us.R
-import com.talk2us.ui.login.LoginActivity
 import com.talk2us.utils.PrefManager
 
 class WelcomeActivity : AppCompatActivity() {
