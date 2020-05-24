@@ -1,6 +1,5 @@
 package com.talk2us.ui.chat.dataSource
 
-import android.util.Log
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import com.google.firebase.database.*
@@ -28,33 +27,35 @@ class ChatRepository(private val chatDao: ChatDao, private val viewModel: ChatVi
         if (PrefManager.getString(R.string.counsellor_id, "Not_defined") == "Not_defined") {
             viewModel.progress.postValue(true)
             mDatabaseReference = FirebaseDatabase.getInstance().reference.child("Counsellor")
-            mDatabaseReference.addValueEventListener(object : ValueEventListener {
+
+            mDatabaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    Log.d("hello hello", dataSnapshot.toString())
                     for (postSnapshot in dataSnapshot.children) {
                         val counsellor: Counsellor? = postSnapshot.getValue(Counsellor::class.java)
                         counsellors.add(counsellor)
                     }
-                    Utils.toast("Counsellor fetched")
-                    for (i in Utils.sortList(counsellors)) {
-                        Utils.toast("final")
+                    var counsellor = counsellors[0]
+                    loop@ for (i in Utils.sortList(counsellors)) {
                         if (i != null && i.available) {
-                            PrefManager.putString(R.string.counsellor_id, i.id)
-                            database.getReference("counsellorChats").child(i.id).child( i.id + PrefManager.getString(
-                                R.string.client_id,
-                                "Not_defined"
-                            ))
-                                .setValue(
-                                    1
-                                )
-                                .addOnSuccessListener {
-                                    PrefManager.putBoolean(R.string.chat_stablished, true)
-                                    viewModel.update(message)
-                                    viewModel.progress.postValue(false)
-                                }
+                            counsellor = i
+                            break@loop
                         }
                     }
-
+                    PrefManager.putString(R.string.counsellor_id, counsellor!!.id)
+                    database.getReference("counsellorChats").child(counsellor!!.id).child(
+                        counsellor!!.id + PrefManager.getString(
+                            R.string.client_id,
+                            "Not_defined"
+                        )
+                    )
+                        .setValue(
+                            1
+                        )
+                        .addOnSuccessListener {
+                            PrefManager.putBoolean(R.string.chat_stablished, true)
+                            viewModel.update(message)
+                            viewModel.progress.postValue(false)
+                        }
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {
@@ -62,6 +63,7 @@ class ChatRepository(private val chatDao: ChatDao, private val viewModel: ChatVi
                     viewModel.progress.postValue(false)
                 }
             })
+
 
         } else {
             if (!PrefManager.getBoolean(R.string.chat_stablished, false)) {
@@ -99,7 +101,7 @@ class ChatRepository(private val chatDao: ChatDao, private val viewModel: ChatVi
     }
 
     @WorkerThread
-    fun insertLocally(message: Message){
+    fun insertLocally(message: Message) {
         chatDao.sendMessage(message)
     }
 

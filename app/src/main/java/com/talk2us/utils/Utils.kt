@@ -13,10 +13,6 @@ class Utils {
                 .show()
         }
 
-        fun getCurrentTime(): Timestamp {
-            return Timestamp(232)
-        }
-
         fun sortList(list: List<Counsellor?>): List<Counsellor?> {
             val comparator = compareBy<Counsellor?> { it?.clients }
             return list.sortedWith(comparator)
@@ -25,6 +21,10 @@ class Utils {
         fun getTime():String{
             val date=Calendar.getInstance().time
             return date.toString()
+        }
+
+        fun Log(str:String){
+            android.util.Log.d("hello",str)
         }
     }
 }

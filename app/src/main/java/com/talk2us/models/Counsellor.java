@@ -4,6 +4,16 @@ public class Counsellor {
     public Boolean available;
     public int clients;
     public String id;
+
+    @Override
+    public String toString() {
+        return "Counsellor{" +
+                "available=" + available +
+                ", clients=" + clients +
+                ", id='" + id + '\'' +
+                '}';
+    }
+
     public Counsellor(){
         available=true;
         clients=0;

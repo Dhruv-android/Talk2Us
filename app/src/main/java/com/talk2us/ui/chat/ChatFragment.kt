@@ -47,7 +47,6 @@ class ChatFragment : Fragment() {
         val msg = v.findViewById<EditText>(R.id.et_message)
         progress = v.findViewById(R.id.progress)
         v.findViewById<Button>(R.id.bt_send).setOnClickListener {
-            Log.d("hello", PrefManager.getString(R.string.counsellor_id, "not"))
             viewModel.sendMessage(
                 Message(
                     msg.text.toString(),
