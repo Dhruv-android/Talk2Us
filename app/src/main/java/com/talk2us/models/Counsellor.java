@@ -4,6 +4,7 @@ public class Counsellor {
     public Boolean available;
     public int clients;
     public String id;
+    public Boolean status_confirmed;
 
     @Override
     public String toString() {
@@ -14,15 +15,18 @@ public class Counsellor {
                 '}';
     }
 
-    public Counsellor(){
-        available=true;
-        clients=0;
-        id="Not available";
+    public Counsellor() {
+        available = true;
+        clients = 0;
+        id = "Not available";
+        status_confirmed = true;
     }
-    public Counsellor(Boolean available, int clients, String id) {
+
+    public Counsellor(Boolean available, int clients, String id, Boolean status_confirmed) {
         this.available = available;
         this.clients = clients;
         this.id = id;
+        this.status_confirmed = status_confirmed;
     }
 
     public Boolean getAvailable() {
@@ -35,6 +39,14 @@ public class Counsellor {
 
     public int getClients() {
         return clients;
+    }
+
+    public Boolean getStatus_confirmed() {
+        return status_confirmed;
+    }
+
+    public void setStatus_confirmed(Boolean status_confirmed) {
+        this.status_confirmed = status_confirmed;
     }
 
     public void setClients(int clients) {

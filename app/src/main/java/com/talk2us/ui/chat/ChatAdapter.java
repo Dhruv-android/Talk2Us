@@ -84,7 +84,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatHolder> {
         @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
         public void bindView(Message message){
             msg.setText(message.getWord());
-            timeStamp.setText(message.getTimestamp());
+            timeStamp.setText(message.getTimeStamp());
             if(viewType==SEND){
                 if(message.getSent()){
                     send.setImageDrawable(context.getDrawable(R.drawable.ic_check));

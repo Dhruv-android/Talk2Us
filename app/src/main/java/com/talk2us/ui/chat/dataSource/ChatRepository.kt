@@ -41,7 +41,7 @@ class ChatRepository(private val chatDao: ChatDao, private val viewModel: ChatVi
                             break@loop
                         }
                     }
-                    PrefManager.putString(R.string.counsellor_id, counsellor!!.id)
+
                     database.getReference("counsellorChats").child(counsellor!!.id).child(
                         counsellor!!.id + PrefManager.getString(
                             R.string.client_id,
@@ -53,8 +53,28 @@ class ChatRepository(private val chatDao: ChatDao, private val viewModel: ChatVi
                         )
                         .addOnSuccessListener {
                             PrefManager.putBoolean(R.string.chat_stablished, true)
+                            message.messageId = PrefManager.getString(
+                                R.string.counsellor_id,
+                                "not_defined"
+                            ) + PrefManager.getString(R.string.client_id, "not_defiend")
                             viewModel.update(message)
-                            viewModel.progress.postValue(false)
+                            counsellor.clients = counsellor.clients + 1
+                            FirebaseDatabase.getInstance().getReference("Counsellor")
+                                .child(counsellor.id).setValue(counsellor).addOnSuccessListener {
+                                viewModel.progress.postValue(false)
+                                viewModel.insertLocally(
+                                    Message(
+                                        "Say hii to initiate",
+                                        Utils.getTime(),
+                                        true,
+                                        true,
+                                        "Counsellor",
+                                        message.messageId
+                                    )
+                                )
+                                PrefManager.putString(R.string.counsellor_id, counsellor!!.id)
+                                PrefManager.putBoolean(R.string.chat_stablished, true)
+                            }
                         }
                 }
 
@@ -88,7 +108,7 @@ class ChatRepository(private val chatDao: ChatDao, private val viewModel: ChatVi
                     R.string.counsellor_id,
                     "Not_defined"
                 ) as String + PrefManager.getString(R.string.client_id, "Not defined")
-            ).child(message.timestamp)
+            ).child(message.timeStamp)
             myRef.setValue(message).addOnSuccessListener {
                 viewModel.update(message)
             }
