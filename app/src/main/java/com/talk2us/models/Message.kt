@@ -4,21 +4,23 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.talk2us.R
+import com.talk2us.utils.Constants
 import com.talk2us.utils.PrefManager
 
 
 @Entity(tableName = "messages")
 data class Message(
-    @PrimaryKey @ColumnInfo(name = "message")
+    @ColumnInfo(name = "message")
     val word: String,
+    @PrimaryKey
     val timeStamp: String,
     var sent: Boolean,
     val seen: Boolean,
     val sentFrom: String,
     var messageId: String = PrefManager.getString(
-        R.string.counsellor_id,
-        "not_defined"
-    ) + PrefManager.getString(R.string.client_id, "not_defined")
+        Constants.COUNSELLOR_ID,
+        Constants.NOT_DEFINED
+    ) + PrefManager.getString(Constants.CLIENT_ID, Constants.NOT_DEFINED)
 
 ) {
     constructor() : this(
@@ -28,8 +30,8 @@ data class Message(
         false,
         "Client",
         PrefManager.getString(
-            R.string.counsellor_id,
-            "not_defined"
-        ) + PrefManager.getString(R.string.client_id, "not_defined")
+            Constants.COUNSELLOR_ID,
+            Constants.NOT_DEFINED
+        ) + PrefManager.getString(Constants.CLIENT_ID ,Constants.NOT_DEFINED)
     )
 }

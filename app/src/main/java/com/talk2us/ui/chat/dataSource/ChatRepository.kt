@@ -2,11 +2,15 @@ package com.talk2us.ui.chat.dataSource
 
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
-import com.google.firebase.database.*
-import com.talk2us.R
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
 import com.talk2us.models.Counsellor
 import com.talk2us.models.Message
 import com.talk2us.ui.chat.ChatViewModel
+import com.talk2us.utils.Constants.CHAT_ESTABLISHED
+import com.talk2us.utils.Constants.COUNSELLOR_ID
+import com.talk2us.utils.Constants.NOT_DEFINED
+import com.talk2us.utils.FirebaseUtils
 import com.talk2us.utils.PrefManager
 import com.talk2us.utils.Utils
 
@@ -21,96 +25,57 @@ class ChatRepository(private val chatDao: ChatDao, private val viewModel: ChatVi
     @WorkerThread
     fun sendMessage(message: Message) {
         chatDao.sendMessage(message)
-
-        val database = FirebaseDatabase.getInstance()
-
-        if (PrefManager.getString(R.string.counsellor_id, "Not_defined") == "Not_defined") {
+        if (PrefManager.getString(COUNSELLOR_ID, NOT_DEFINED) == NOT_DEFINED) {
             viewModel.progress.postValue(true)
-            mDatabaseReference = FirebaseDatabase.getInstance().reference.child("Counsellor")
+            FirebaseUtils.getInstance()
+                .getSuitableCounsellor(object : FirebaseUtils.FirebaseStateListener<Counsellor> {
+                    override fun onSuccess(counsellor: Counsellor?) {
+                        PrefManager.putString(COUNSELLOR_ID, counsellor!!.id)
+                        FirebaseUtils.getInstance()
+                            .establishChat(object : FirebaseUtils.FirebaseStateListener<Boolean> {
+                                override fun onSuccess(counsellor: Boolean?) {
+                                    PrefManager.putBoolean(CHAT_ESTABLISHED, true)
+                                    message.messageId = PrefManager.getChatId()
+                                    viewModel.progress.postValue(false)
+                                    viewModel.update(message)
+                                }
 
-            mDatabaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    for (postSnapshot in dataSnapshot.children) {
-                        val counsellor: Counsellor? = postSnapshot.getValue(Counsellor::class.java)
-                        counsellors.add(counsellor)
-                    }
-                    var counsellor = counsellors[0]
-                    loop@ for (i in Utils.sortList(counsellors)) {
-                        if (i != null && i.available) {
-                            counsellor = i
-                            break@loop
+                                override fun onError(e: DatabaseError?) {
                         }
-                    }
 
-                    database.getReference("counsellorChats").child(counsellor!!.id).child(
-                        counsellor!!.id + PrefManager.getString(
-                            R.string.client_id,
-                            "Not_defined"
-                        )
-                    )
-                        .setValue(
-                            1
-                        )
-                        .addOnSuccessListener {
-                            PrefManager.putBoolean(R.string.chat_stablished, true)
-                            message.messageId = PrefManager.getString(
-                                R.string.counsellor_id,
-                                "not_defined"
-                            ) + PrefManager.getString(R.string.client_id, "not_defiend")
-                            viewModel.update(message)
-                            counsellor.clients = counsellor.clients + 1
-                            FirebaseDatabase.getInstance().getReference("Counsellor")
-                                .child(counsellor.id).setValue(counsellor).addOnSuccessListener {
-                                viewModel.progress.postValue(false)
-                                viewModel.insertLocally(
-                                    Message(
-                                        "Say hii to initiate",
-                                        Utils.getTime(),
-                                        true,
-                                        true,
-                                        "Counsellor",
-                                        message.messageId
-                                    )
-                                )
-                                PrefManager.putString(R.string.counsellor_id, counsellor!!.id)
-                                PrefManager.putBoolean(R.string.chat_stablished, true)
-                            }
-                        }
+                            })
                 }
 
-                override fun onCancelled(databaseError: DatabaseError) {
-                    Utils.toast("Error finding counsellor, check your internet connection")
-                    viewModel.progress.postValue(false)
+                    override fun onError(e: DatabaseError?) {
                 }
+
             })
 
 
         } else {
-            if (!PrefManager.getBoolean(R.string.chat_stablished, false)) {
-                database.getReference("counsellorChats")
-                    .child(PrefManager.getString(R.string.counsellor_id, "not_defined") as String)
-                    .child(
-                        PrefManager.getString(
-                            R.string.counsellor_id,
-                            "Not_defined"
-                        ) + PrefManager.getString(
-                            R.string.client_id,
-                            "Not_defined"
-                        )
-                    ).setValue(1)
-                    .addOnSuccessListener {
-                        PrefManager.putBoolean(R.string.chat_stablished, true)
+            if (!PrefManager.getBoolean(CHAT_ESTABLISHED, false)) {
+                FirebaseUtils.getInstance()
+                    .establishChat(object : FirebaseUtils.FirebaseStateListener<Boolean> {
+                        override fun onSuccess(counsellor: Boolean?) {
+                            PrefManager.putBoolean(CHAT_ESTABLISHED, counsellor as Boolean)
                         viewModel.progress.postValue(false)
                     }
-            }
-            val myRef = database.getReference("chatMessages").child(
-                PrefManager.getString(
-                    R.string.counsellor_id,
-                    "Not_defined"
-                ) as String + PrefManager.getString(R.string.client_id, "Not defined")
-            ).child(message.timeStamp)
-            myRef.setValue(message).addOnSuccessListener {
-                viewModel.update(message)
+
+                        override fun onError(e: DatabaseError?) {
+                        }
+
+                    })
+            } else {
+                FirebaseUtils.getInstance()
+                    .sendMessage(message, object : FirebaseUtils.FirebaseStateListener<Message> {
+                        override fun onSuccess(counsellor: Message?) {
+                            viewModel.update(counsellor as Message)
+                        }
+                        override fun onError(e: DatabaseError?) {
+                            Utils.toast("Something went wrong")
+                        }
+
+                    })
             }
         }
     }

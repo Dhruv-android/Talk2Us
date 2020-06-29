@@ -4,7 +4,7 @@ public class Counsellor {
     public Boolean available;
     public int clients;
     public String id;
-    public Boolean status_confirmed;
+    private Boolean status_confirmed;
 
     @Override
     public String toString() {

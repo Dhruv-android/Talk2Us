@@ -79,6 +79,43 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:880131144742:android:b12098b2d4bddf22323ae7",
+        "android_client_info": {
+          "package_name": "com.talk2us_Counsellor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "880131144742-1irsdtiq67k8eptisl4gm2pqb8i80hs3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.talk2us_Counsellor",
+            "certificate_hash": "fa3eadde8cef6b4abf04930592ad730097334000"
+          }
+        },
+        {
+          "client_id": "880131144742-4f6mu5ggko6oiorugctfcqs53cb5i1db.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBq36K5detNq3HXezFnNKEJ0JYL4Eauzio"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "880131144742-4f6mu5ggko6oiorugctfcqs53cb5i1db.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"

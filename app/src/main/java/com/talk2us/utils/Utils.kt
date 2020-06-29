@@ -23,7 +23,7 @@ class Utils {
             return date.toString()
         }
 
-        fun Log(str:String){
+        fun log(str:String){
             android.util.Log.d("hello",str)
         }
     }

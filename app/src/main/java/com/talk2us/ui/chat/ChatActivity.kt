@@ -1,14 +1,21 @@
 package com.talk2us.ui.chat
 
 import android.os.Bundle
+ import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.iid.FirebaseInstanceId
 import com.talk2us.R
+import com.talk2us.models.Counsellor
+import com.talk2us.utils.FirebaseUtils
+import com.talk2us.utils.Utils
 
 
-class ChatActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class ChatActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,FirebaseUtils.FirebaseStateListener<Counsellor> {
     private lateinit var viewModel: ChatViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,6 +24,11 @@ class ChatActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val navigationView = findViewById<NavigationView>(R.id.nav_view)
         navigationView.setNavigationItemSelectedListener(this)
         sentUnsentMessages()
+        FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener(OnCompleteListener {
+            val token=it.result?.token as String
+            Utils.log("YO")
+            Utils.log(token)
+        })
         supportFragmentManager.beginTransaction().replace(R.id.container, ChatFragment()).commit()
     }
 
@@ -36,5 +48,13 @@ class ChatActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         viewModel.deleteAll()
         return true
+    }
+
+    override fun onSuccess(counsellor: Counsellor) {
+            Utils.log("hello"+counsellor.getId())
+    }
+
+    override fun onError(e: DatabaseError?) {
+        TODO("Not yet implemented")
     }
 }

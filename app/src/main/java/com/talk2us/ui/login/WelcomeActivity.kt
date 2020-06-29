@@ -12,6 +12,7 @@ import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import com.talk2us.R
+import com.talk2us.utils.Constants
 import com.talk2us.utils.PrefManager
 
 class WelcomeActivity : AppCompatActivity() {
@@ -46,7 +47,7 @@ class WelcomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_welcome)
-        PrefManager.putBoolean(R.string.first_time, false)
+        PrefManager.putBoolean(Constants.FIRST_TIME, false)
         skip = findViewById(R.id.welcome_skip)
         next = findViewById(R.id.welcome_next)
         tabLayout = findViewById(R.id.welcome_tab_layout)

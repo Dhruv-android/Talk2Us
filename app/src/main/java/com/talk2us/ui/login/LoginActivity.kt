@@ -8,13 +8,11 @@ import androidx.lifecycle.ViewModelProviders
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthCredential
-import com.google.firebase.database.FirebaseDatabase
 import com.talk2us.R
-import com.talk2us.models.Client
 import com.talk2us.ui.chat.ChatActivity
+import com.talk2us.utils.Constants
 import com.talk2us.utils.PrefManager
 import com.talk2us.utils.Utils
-import kotlinx.android.synthetic.main.fragment_send_otp.*
 
 
 class LoginActivity : AppCompatActivity() {
@@ -30,7 +28,7 @@ class LoginActivity : AppCompatActivity() {
             startActivity(Intent(applicationContext, ChatActivity::class.java))
             finish()
         }
-        if (PrefManager.getBoolean(R.string.first_time, true)) {
+        if (PrefManager.getBoolean(Constants.FIRST_TIME, true)) {
             startActivity(Intent(applicationContext, WelcomeActivity::class.java))
             finish()
         }
@@ -53,8 +51,8 @@ class LoginActivity : AppCompatActivity() {
     private fun signInWithPhoneCredential(it: PhoneAuthCredential) {
         mAuth.signInWithCredential(it).addOnCompleteListener {
             if (it.isSuccessful) {
-                PrefManager.putString(R.string.phone_number,loginViewModel.phone)
-                startActivity(Intent(applicationContext,LoginActivity::class.java))
+                PrefManager.putString(Constants.PHONE_NUMBER, loginViewModel.phone)
+                startActivity(Intent(applicationContext,ChatActivity::class.java))
                 finish()
             } else {
                 Utils.toast(it.exception.toString())

@@ -8,6 +8,8 @@ import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.talk2us.models.Message
 import com.talk2us.ui.chat.dataSource.ChatDao
+import com.talk2us.utils.Constants
+import com.talk2us.utils.PrefManager
 import com.talk2us.utils.Utils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -15,7 +17,7 @@ import kotlinx.coroutines.launch
 import java.sql.Time
 import java.sql.Timestamp
 
-@Database(entities = [Message::class], version = 4)
+@Database(entities = [Message::class], version = 5)
 abstract class ChatDatabase : RoomDatabase() {
 
     abstract fun wordDao(): ChatDao
@@ -60,7 +62,9 @@ abstract class ChatDatabase : RoomDatabase() {
 
         fun populateDatabase(wordDao: ChatDao) {
             val word = Message("Say find counsellor", Utils.getTime(),true,true,"Counsellor","not_defined")
-            wordDao.sendMessage(word)
+            if(PrefManager.getCounsellorId()!=Constants.NOT_DEFINED) {
+                wordDao.sendMessage(word)
+            }
         }
     }
 

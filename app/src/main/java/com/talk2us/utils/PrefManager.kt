@@ -3,6 +3,8 @@ package com.talk2us.utils
 import android.content.Context
 import androidx.preference.PreferenceManager
 import com.talk2us.MainApplication
+import com.talk2us.utils.Constants.CLIENT_ID
+import com.talk2us.utils.Constants.COUNSELLOR_ID
 
 
 object PrefManager {
@@ -10,20 +12,30 @@ object PrefManager {
     private val context: Context
         get() = MainApplication.instance.applicationContext
 
-    fun putBoolean(preferenceKey: Int, preferenceValue: Boolean) {
-        preference.edit().putBoolean(context.getString(preferenceKey), preferenceValue).apply()
+    fun putBoolean(preferenceKey: String, preferenceValue: Boolean) {
+        preference.edit().putBoolean(preferenceKey, preferenceValue).apply()
     }
 
-    fun getBoolean(preferenceKey: Int, defaultValue: Boolean): Boolean {
-        return preference.getBoolean(context.getString(preferenceKey), defaultValue)
+    fun getBoolean(preferenceKey: String, defaultValue: Boolean): Boolean {
+        return preference.getBoolean(preferenceKey, defaultValue)
     }
 
-    fun putString(preferenceKey: Int, preferenceValue: String) {
-        preference.edit().putString(context.getString(preferenceKey), preferenceValue).apply()
+    fun putString(preferenceKey: String, preferenceValue: String) {
+        preference.edit().putString(preferenceKey, preferenceValue).apply()
     }
 
-    fun getString(preferenceKey: Int, defaultValue: String): String? {
-        return preference.getString(context.getString(preferenceKey), defaultValue)
+    fun getString(preferenceKey: String, defaultValue: String): String? {
+        return preference.getString(preferenceKey, defaultValue)
     }
 
+    fun getChatId():String{
+       return getString(
+            COUNSELLOR_ID,
+            Constants.NOT_DEFINED
+        ) + getString(CLIENT_ID, Constants.NOT_DEFINED)
+
+    }
+    fun getCounsellorId():String{
+        return getString(COUNSELLOR_ID,Constants.NOT_DEFINED) as String
+    }
 }

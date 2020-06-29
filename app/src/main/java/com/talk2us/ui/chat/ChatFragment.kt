@@ -1,7 +1,6 @@
 package com.talk2us.ui.chat
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +20,7 @@ import com.google.firebase.database.ValueEventListener
 import com.talk2us.R
 import com.talk2us.models.Client
 import com.talk2us.models.Message
+import com.talk2us.utils.Constants
 import com.talk2us.utils.PrefManager
 import com.talk2us.utils.Utils
 import java.util.concurrent.atomic.AtomicInteger
@@ -68,6 +68,7 @@ class ChatFragment : Fragment() {
                 // if y is positive the keyboard is up else it's down
                 recyclerView.post {
                     if (y > 0 || verticalScrollOffset.get().absoluteValue >= y.absoluteValue) {
+                        3
                         recyclerView.scrollBy(0, y)
                     } else {
                         recyclerView.scrollBy(0, verticalScrollOffset.get())
@@ -78,7 +79,7 @@ class ChatFragment : Fragment() {
         val mAuth = FirebaseAuth.getInstance()
 
         if (mAuth.currentUser?.uid != null && PrefManager.getBoolean(
-                R.string.not_registered,
+                Constants.NOT_REGISTERED,
                 true
             )
         ) {
@@ -86,18 +87,18 @@ class ChatFragment : Fragment() {
             val firebaseUser = mAuth.currentUser
             if (firebaseUser != null) {
                 val userId = firebaseUser.uid
-                PrefManager.putString(R.string.client_id, userId)
+                PrefManager.putString(Constants.CLIENT_ID, userId)
                 val database = FirebaseDatabase.getInstance()
                 val myRef = database.getReference("client").child(userId)
                 myRef.setValue(
                     Client(
                         PrefManager.getString(
-                            R.string.phone_number,
-                            "Not available"
+                            Constants.PHONE_NUMBER,
+                            Constants.NOT_DEFINED
                         )
                     )
                 ).addOnSuccessListener {
-                    PrefManager.putBoolean(R.string.not_registered, false)
+                    PrefManager.putBoolean(Constants.NOT_REGISTERED, false)
                     Utils.toast("User registered")
                 }
             }
@@ -125,10 +126,7 @@ class ChatFragment : Fragment() {
         })
         recyclerView.adapter = chatAdapter
         FirebaseDatabase.getInstance().getReference("chatMessages").child(
-            PrefManager.getString(
-                R.string.counsellor_id,
-                "not available"
-            ) + PrefManager.getString(R.string.client_id, "Not_Available")
+            PrefManager.getChatId()
         ).addValueEventListener(object : ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {
             }
