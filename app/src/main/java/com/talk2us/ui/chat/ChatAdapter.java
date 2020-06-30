@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.talk2us.R;
 import com.talk2us.models.Message;
+import com.talk2us.utils.Constants;
 
 import java.util.List;
 
@@ -48,7 +49,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatHolder> {
     @Override
     public int getItemViewType(int position) {
 
-        if (mMessage.get(position).getSentFrom().equals("Client")){
+        if (mMessage.get(position).getSentFrom().equals(Constants.CLIENT)){
             return SEND;
         }else {
             return RECEIVED;

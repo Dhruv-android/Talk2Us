@@ -35,7 +35,15 @@ object PrefManager {
         ) + getString(CLIENT_ID, Constants.NOT_DEFINED)
 
     }
+
+    fun getClientId():String{
+        return getString(CLIENT_ID,Constants.NOT_DEFINED) as String
+    }
     fun getCounsellorId():String{
         return getString(COUNSELLOR_ID,Constants.NOT_DEFINED) as String
+    }
+
+    fun sessionEnded(){
+        putString(COUNSELLOR_ID,Constants.NOT_DEFINED)
     }
 }

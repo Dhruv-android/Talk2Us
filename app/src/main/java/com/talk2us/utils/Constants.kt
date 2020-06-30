@@ -1,6 +1,8 @@
 package com.talk2us.utils
 
 object Constants {
+    const val CLIENT="client"
+    const val COUNSELLOR="counsellor"
     const val COUNSELLOR_ID="counsellor_id"
     const val CLIENT_ID="client_id"
     const val CHAT_ESTABLISHED="chat_established"

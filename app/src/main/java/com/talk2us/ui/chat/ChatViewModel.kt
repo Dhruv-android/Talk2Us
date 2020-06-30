@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.talk2us.models.Message
 import com.talk2us.ui.chat.dataSource.ChatDatabase
 import com.talk2us.ui.chat.dataSource.ChatRepository
+import com.talk2us.utils.Utils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -37,5 +38,9 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
 
     fun insertLocally(message:Message)=viewModelScope.launch(Dispatchers.IO){
         repository.insertLocally(message)
+    }
+
+    fun advanceToast(message:String){
+        insertLocally(Message(message,Utils.getTime(),false,false,"C"))
     }
 }

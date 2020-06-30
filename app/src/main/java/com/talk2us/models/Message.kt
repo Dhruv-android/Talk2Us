@@ -28,7 +28,7 @@ data class Message(
         "",
         false,
         false,
-        "Client",
+        Constants.CLIENT,
         PrefManager.getString(
             Constants.COUNSELLOR_ID,
             Constants.NOT_DEFINED

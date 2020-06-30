@@ -3,8 +3,8 @@
 
     <item
         android:id="@+id/endSession"
-        android:title="End Session" />
+        android:title="@string/end_session" />
     <item
         android:id="@+id/donate"
-        android:title="Donate" />
+        android:title="@string/donate" />
 </menu>

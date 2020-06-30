@@ -53,7 +53,7 @@ class ChatFragment : Fragment() {
                     Utils.getTime(),
                     false,
                     false,
-                    "Client"
+                    Constants.CLIENT
                 )
             )
             msg.setText("")
@@ -89,13 +89,13 @@ class ChatFragment : Fragment() {
                 val userId = firebaseUser.uid
                 PrefManager.putString(Constants.CLIENT_ID, userId)
                 val database = FirebaseDatabase.getInstance()
-                val myRef = database.getReference("client").child(userId)
+                val myRef = database.getReference(Constants.CLIENT).child(userId)
                 myRef.setValue(
                     Client(
                         PrefManager.getString(
                             Constants.PHONE_NUMBER,
                             Constants.NOT_DEFINED
-                        )
+                        ), Constants.NOT_DEFINED
                     )
                 ).addOnSuccessListener {
                     PrefManager.putBoolean(Constants.NOT_REGISTERED, false)

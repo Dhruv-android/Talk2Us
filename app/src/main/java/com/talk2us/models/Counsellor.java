@@ -1,5 +1,7 @@
 package com.talk2us.models;
 
+import com.talk2us.utils.Constants;
+
 public class Counsellor {
     public Boolean available;
     public int clients;
@@ -18,7 +20,7 @@ public class Counsellor {
     public Counsellor() {
         available = true;
         clients = 0;
-        id = "Not available";
+        id = Constants.NOT_DEFINED;
         status_confirmed = true;
     }
 
