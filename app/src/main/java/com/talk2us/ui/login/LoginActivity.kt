@@ -24,10 +24,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         mAuth = FirebaseAuth.getInstance()
-        if (mAuth.currentUser != null) {
-            startActivity(Intent(applicationContext, ChatActivity::class.java))
-            finish()
-        }
+
         if (PrefManager.getBoolean(Constants.FIRST_TIME, true)) {
             startActivity(Intent(applicationContext, WelcomeActivity::class.java))
             finish()
