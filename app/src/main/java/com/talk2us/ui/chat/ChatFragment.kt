@@ -12,13 +12,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.talk2us.R
-import com.talk2us.models.Client
 import com.talk2us.models.Message
 import com.talk2us.utils.Constants
 import com.talk2us.utils.PrefManager
@@ -76,34 +74,6 @@ class ChatFragment : Fragment() {
                 }
             }
         }
-        val mAuth = FirebaseAuth.getInstance()
-
-        if (mAuth.currentUser?.uid != null && PrefManager.getBoolean(
-                Constants.NOT_REGISTERED,
-                true
-            )
-        ) {
-
-            val firebaseUser = mAuth.currentUser
-            if (firebaseUser != null) {
-                val userId = firebaseUser.uid
-                PrefManager.putString(Constants.CLIENT_ID, userId)
-                val database = FirebaseDatabase.getInstance()
-                val myRef = database.getReference(Constants.CLIENT).child(userId)
-                myRef.setValue(
-                    Client(
-                        PrefManager.getString(
-                            Constants.PHONE_NUMBER,
-                            Constants.NOT_DEFINED
-                        ), Constants.NOT_DEFINED
-                    )
-                ).addOnSuccessListener {
-                    PrefManager.putBoolean(Constants.NOT_REGISTERED, false)
-                    Utils.toast("User registered")
-                }
-            }
-        }
-
         return v
     }
 

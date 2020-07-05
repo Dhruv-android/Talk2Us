@@ -7,7 +7,6 @@ import com.google.firebase.database.DatabaseReference
 import com.talk2us.models.Counsellor
 import com.talk2us.models.Message
 import com.talk2us.ui.chat.ChatViewModel
-import com.talk2us.utils.Constants.CHAT_ESTABLISHED
 import com.talk2us.utils.Constants.COUNSELLOR_ID
 import com.talk2us.utils.Constants.NOT_DEFINED
 import com.talk2us.utils.FirebaseUtils
@@ -31,41 +30,14 @@ class ChatRepository(private val chatDao: ChatDao, private val viewModel: ChatVi
                 .getSuitableCounsellor(object : FirebaseUtils.FirebaseStateListener<Counsellor> {
                     override fun onSuccess(counsellor: Counsellor?) {
                         PrefManager.putString(COUNSELLOR_ID, counsellor!!.id)
-                        FirebaseUtils.getInstance()
-                            .establishChat(object : FirebaseUtils.FirebaseStateListener<Boolean> {
-                                override fun onSuccess(counsellor: Boolean?) {
-                                    PrefManager.putBoolean(CHAT_ESTABLISHED, true)
-                                    message.messageId = PrefManager.getChatId()
-                                    viewModel.progress.postValue(false)
-                                    viewModel.update(message)
-                                }
-
-                                override fun onError(e: DatabaseError?) {
-                        }
-
-                            })
-                }
-
-                    override fun onError(e: DatabaseError?) {
-                }
-
-            })
-
-
-        } else {
-            if (!PrefManager.getBoolean(CHAT_ESTABLISHED, false)) {
-                FirebaseUtils.getInstance()
-                    .establishChat(object : FirebaseUtils.FirebaseStateListener<Boolean> {
-                        override fun onSuccess(counsellor: Boolean?) {
-                            PrefManager.putBoolean(CHAT_ESTABLISHED, counsellor as Boolean)
+                        message.messageId = PrefManager.getChatId()
                         viewModel.progress.postValue(false)
+                        viewModel.update(message)
                     }
-
-                        override fun onError(e: DatabaseError?) {
-                        }
-
-                    })
-            } else {
+                    override fun onError(e: DatabaseError?) {
+                    }
+                })
+        } else {
                 FirebaseUtils.getInstance()
                     .sendMessage(message, object : FirebaseUtils.FirebaseStateListener<Message> {
                         override fun onSuccess(counsellor: Message?) {
@@ -78,8 +50,6 @@ class ChatRepository(private val chatDao: ChatDao, private val viewModel: ChatVi
                     })
             }
         }
-    }
-
     @WorkerThread
     fun update(message: Message) {
         chatDao.updateLast(message)

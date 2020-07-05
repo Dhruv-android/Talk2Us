@@ -46,4 +46,20 @@ object PrefManager {
     fun sessionEnded(){
         putString(COUNSELLOR_ID,Constants.NOT_DEFINED)
     }
+
+    fun getClientMessageToken(): String {
+        return getString(Constants.CLIENT_MESSAGE_TOKEN, Constants.NOT_DEFINED) as String
+    }
+
+    fun getCounsellorMessageToken(): String {
+        return getString(Constants.COUNSEllOR_MESSAGE_TOKEN, Constants.NOT_DEFINED) as String
+    }
+
+    fun putClientMessageToken(str: String) {
+        putString(Constants.CLIENT_MESSAGE_TOKEN, str)
+    }
+
+    fun putCounsellorMessageToken(str: String) {
+        putString(Constants.COUNSEllOR_MESSAGE_TOKEN, str)
+    }
 }

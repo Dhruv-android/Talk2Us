@@ -1,14 +1,13 @@
 package com.talk2us.ui.session
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import com.google.firebase.database.DatabaseError
-
 import com.talk2us.R
 import com.talk2us.models.Counsellor
 import com.talk2us.ui.chat.ChatViewModel

@@ -8,8 +8,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.talk2us.models.Client;
 import com.talk2us.models.Counsellor;
 import com.talk2us.models.Message;
+import com.talk2us.models.Session;
 
 import java.util.ArrayList;
 
@@ -42,7 +44,7 @@ public class FirebaseUtils {
                         break;
                     }
                 }
-                setCounsellorId(mcounsellor[0], listener);
+                startSession(mcounsellor[0], listener);
             }
 
             @Override
@@ -52,10 +54,13 @@ public class FirebaseUtils {
         });
     }
 
-    public void setCounsellorId(final Counsellor counsellor, final FirebaseStateListener<Counsellor> listener) {
-        FirebaseDatabase.getInstance().getReference(Constants.CLIENT).child(PrefManager.INSTANCE.getClientId()).child(Constants.COUNSELLOR_ID).setValue(counsellor.id).addOnSuccessListener(new OnSuccessListener<Void>() {
+    public void startSession(final Counsellor counsellor, final FirebaseStateListener<Counsellor> listener) {
+        prefManager.putString(Constants.COUNSELLOR_ID, counsellor.id);
+        Session session = new Session(prefManager.getClientId(), prefManager.getClientMessageToken(), counsellor.id, counsellor.messageToken, prefManager.getChatId());
+        FirebaseDatabase.getInstance().getReference(Constants.SESSION).child(PrefManager.INSTANCE.getChatId()).setValue(session).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
+                PrefManager.INSTANCE.putCounsellorMessageToken(counsellor.messageToken);
                 listener.onSuccess(counsellor);
             }
         });
@@ -75,7 +80,7 @@ public class FirebaseUtils {
     }
 
     public void establishChat(final FirebaseStateListener<Boolean> listener) {
-        databaseReference = FirebaseDatabase.getInstance().getReference("counsellorChats");
+        databaseReference = FirebaseDatabase.getInstance().getReference("sessions");
         databaseReference.child(prefManager.
                 getCounsellorId()).child(prefManager.getChatId()).setValue(1).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -83,6 +88,28 @@ public class FirebaseUtils {
                 listener.onSuccess(true);
             }
         });
+    }
+
+    public void setListeners() {
+        FirebaseDatabase.getInstance().getReference(Constants.CLIENT)
+                .child(PrefManager.INSTANCE.getClientId()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Client client=dataSnapshot.getValue(Client.class);
+                PrefManager.INSTANCE.putString(Constants.COUNSELLOR_ID,client.counsellorId);
+                PrefManager.INSTANCE.putString(Constants.PHONE_NUMBER,client.phone);
+                PrefManager.INSTANCE.putString(Constants.CLIENT_ID,client.clientId);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    interface ChangeListener {
+        void counsellorId(String str);
     }
 
     public interface FirebaseStateListener<T> {

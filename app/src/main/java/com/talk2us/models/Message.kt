@@ -20,8 +20,8 @@ data class Message(
     var messageId: String = PrefManager.getString(
         Constants.COUNSELLOR_ID,
         Constants.NOT_DEFINED
-    ) + PrefManager.getString(Constants.CLIENT_ID, Constants.NOT_DEFINED)
-
+    ) + PrefManager.getString(Constants.CLIENT_ID, Constants.NOT_DEFINED),
+    var messageToken:String=PrefManager.getCounsellorMessageToken()
 ) {
     constructor() : this(
         "",
@@ -32,6 +32,5 @@ data class Message(
         PrefManager.getString(
             Constants.COUNSELLOR_ID,
             Constants.NOT_DEFINED
-        ) + PrefManager.getString(Constants.CLIENT_ID ,Constants.NOT_DEFINED)
-    )
+        ) + PrefManager.getString(Constants.CLIENT_ID ,Constants.NOT_DEFINED))
 }

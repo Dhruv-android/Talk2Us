@@ -52,6 +52,7 @@ class LoginActivity : AppCompatActivity() {
         mAuth.signInWithCredential(it).addOnCompleteListener {
             if (it.isSuccessful) {
                 PrefManager.putString(Constants.PHONE_NUMBER, loginViewModel.phone)
+                PrefManager.putString(Constants.CLIENT_ID,mAuth.uid as String)
                 startActivity(Intent(applicationContext,ChatActivity::class.java))
                 finish()
             } else {

@@ -8,6 +8,15 @@ public class Counsellor {
     public String id;
     private Boolean status_confirmed;
 
+    public String getMessageToken() {
+        return messageToken;
+    }
+
+    public void setMessageToken(String messageToken) {
+        this.messageToken = messageToken;
+    }
+
+    public String messageToken;
     @Override
     public String toString() {
         return "Counsellor{" +
@@ -22,13 +31,15 @@ public class Counsellor {
         clients = 0;
         id = Constants.NOT_DEFINED;
         status_confirmed = true;
+        messageToken=Constants.NOT_DEFINED;
     }
 
-    public Counsellor(Boolean available, int clients, String id, Boolean status_confirmed) {
+    public Counsellor(Boolean available, int clients, String id, Boolean status_confirmed, String messageToken) {
         this.available = available;
         this.clients = clients;
         this.id = id;
         this.status_confirmed = status_confirmed;
+        this.messageToken = messageToken;
     }
 
     public Boolean getAvailable() {
