@@ -1,10 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
+    <group android:id="@+id/app">
     <item
         android:id="@+id/endSession"
+        android:icon="@drawable/ic_end_session"
         android:title="@string/end_session" />
     <item
         android:id="@+id/donate"
-        android:title="@string/donate" />
+        android:icon="@drawable/ic_donate"
+        android:title="Contribute" />
+        <item
+            android:id="@+id/stats"
+            android:icon="@drawable/ic_assessment_black_24dp"
+            android:title="Stats" />
+        <item
+            android:id="@+id/b_counsellor"
+            android:icon="@drawable/ic_insert_link_black_24dp"
+            android:title="Become a counsellor" />
+
+    </group>
+    <group android:id="@+id/tools"
+        android:checkableBehavior="single">
+        <item android:id="@+id/apps"
+            android:title="Our other apps"
+            android:icon="@drawable/ic_apps_black_24dp"/>
+        <item
+            android:id="@+id/videos"
+            android:icon="@drawable/ic_videos"
+            android:title="Videos" />
+        <item
+            android:id="@+id/audio"
+            android:icon="@drawable/ic_audiotrack_black_24dp"
+            android:title="Audios" />
+    </group>
+    <item android:id="@+id/rate"
+        android:icon="@drawable/ic_rate"
+        android:title="Rate us"/>
+    <item android:id="@+id/settings"
+        android:icon="@drawable/ic_settings_black_24dp"
+        android:title="Settings"/>
+    <item android:id="@+id/logout"
+        android:icon="@drawable/ic_logout"
+        android:title="Logout"/>
 </menu>
