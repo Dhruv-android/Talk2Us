@@ -3,21 +3,24 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="colorPrimary">@color/colorSecondary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+<!--        <item name="colorSecondary">@color/colorSecondary</item>-->
         <item name="android:textColorPrimary">#000</item>
         <item name="android:textColorSecondary">#000</item>
         <item name="titleTextColor">#000</item>
+        <item name="android:windowLightStatusBar">true</item>
+<!--        <item name="android:navigationBarColor">@color/colorPrimaryLight</item>-->
+
     </style>
-    <style name="customButtons" parent="Widget.MaterialComponents.Button.OutlinedButton">
-        <item name="iconTint">@color/colorSecondary</item>
-        <item name="titleTextColor">@color/colorSecondary</item>
-        <item name="colorPrimary">@color/colorSecondary</item>
-        <item name="android:textColor">@color/colorSecondary</item>
-    </style>
-    <style name="ShapeAppearanceOverlay.MyApp.Button.Circle" parent="">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">50%</item>
-    </style>
+<!--    <style name="customButtons" parent="Widget.MaterialComponents.Button.OutlinedButton">-->
+<!--        <item name="iconTint">@color/colorSecondary</item>-->
+<!--        <item name="titleTextColor">@color/colorSecondary</item>-->
+<!--        <item name="colorPrimary">@color/colorSecondary</item>-->
+<!--        <item name="android:textColor">@color/colorSecondary</item>-->
+<!--    </style>-->
+<!--    <style name="ShapeAppearanceOverlay.MyApp.Button.Circle" parent="">-->
+<!--        <item name="cornerFamily">rounded</item>-->
+<!--        <item name="cornerSize">50%</item>-->
+<!--    </style>-->
 </resources>
