@@ -5,7 +5,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuth.AuthStateListener
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.talk2us.R
@@ -13,6 +15,7 @@ import com.talk2us.ui.chat.ChatActivity
 import com.talk2us.utils.Constants
 import com.talk2us.utils.PrefManager
 import com.talk2us.utils.Utils
+import java.util.*
 
 
 class LoginActivity : AppCompatActivity() {
@@ -46,7 +49,22 @@ class LoginActivity : AppCompatActivity() {
         })
 
         supportFragmentManager.beginTransaction().replace(R.id.container, SendOtpFragment()).commit()
+
+
+//        startActivityForResult(
+//            AuthUI.getInstance()
+//                .createSignInIntentBuilder()
+//                .setIsSmartLockEnabled(false)
+//                .setAvailableProviders(
+//                    listOf< AuthUI.IdpConfig>(
+//                        AuthUI.IdpConfig.PhoneBuilder().build()
+//                    )
+//                )
+//                .build(), 1
+//        )
+
     }
+
 
     private fun signInWithPhoneCredential(it: PhoneAuthCredential) {
         mAuth.signInWithCredential(it).addOnCompleteListener {

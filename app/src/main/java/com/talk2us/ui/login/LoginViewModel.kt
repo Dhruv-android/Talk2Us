@@ -53,6 +53,9 @@ class LoginViewModel : ViewModel() {
                 } else if (e is FirebaseTooManyRequestsException) {
                     Utils.toast("Too many requests")
                 }
+//                else{
+//                    Utils.toast(e.toString())
+//                }
             }
 
             override fun onCodeSent(
