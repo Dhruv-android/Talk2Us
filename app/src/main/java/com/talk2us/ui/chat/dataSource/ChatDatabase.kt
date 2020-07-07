@@ -61,8 +61,8 @@ abstract class ChatDatabase : RoomDatabase() {
         }
 
         fun populateDatabase(wordDao: ChatDao) {
-            val word = Message("Say find counsellor", Utils.getTime(),true,true,Constants.COUNSELLOR,Constants.NOT_DEFINED)
-            if(PrefManager.getCounsellorId()!=Constants.NOT_DEFINED) {
+            val word = Message("Say hii to find counsellor", Utils.getTime(),true,true,Constants.COUNSELLOR,Constants.NOT_DEFINED)
+            if(PrefManager.getCounsellorId()==Constants.NOT_DEFINED) {
                 wordDao.sendMessage(word)
             }
         }
