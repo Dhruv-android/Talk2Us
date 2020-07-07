@@ -5,9 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuth.AuthStateListener
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.talk2us.R
@@ -49,19 +47,6 @@ class LoginActivity : AppCompatActivity() {
         })
 
         supportFragmentManager.beginTransaction().replace(R.id.container, SendOtpFragment()).commit()
-
-
-//        startActivityForResult(
-//            AuthUI.getInstance()
-//                .createSignInIntentBuilder()
-//                .setIsSmartLockEnabled(false)
-//                .setAvailableProviders(
-//                    listOf< AuthUI.IdpConfig>(
-//                        AuthUI.IdpConfig.PhoneBuilder().build()
-//                    )
-//                )
-//                .build(), 1
-//        )
 
     }
 

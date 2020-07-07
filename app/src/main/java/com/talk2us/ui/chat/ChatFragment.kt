@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -44,7 +45,7 @@ class ChatFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         val msg = v.findViewById<EditText>(R.id.et_message)
         progress = v.findViewById(R.id.progress)
-        v.findViewById<Button>(R.id.bt_send).setOnClickListener {
+        v.findViewById<ImageView>(R.id.bt_send).setOnClickListener {
             viewModel.sendMessage(
                 Message(
                     msg.text.toString(),
@@ -54,7 +55,7 @@ class ChatFragment : Fragment() {
                     Constants.CLIENT
                 )
             )
-            msg.setText("")
+            msg.text.clear()
         }
         msg.setOnClickListener {
             recyclerView.smoothScrollToPosition(chatAdapter.itemCount)
