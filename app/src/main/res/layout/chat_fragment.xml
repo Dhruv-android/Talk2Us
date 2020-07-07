@@ -34,8 +34,10 @@
         android:id="@+id/bt_send"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:text="send"
+        style="@style/customButtons"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:icon="@drawable/ic_send_black"
+        android:text="Send"
         app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
