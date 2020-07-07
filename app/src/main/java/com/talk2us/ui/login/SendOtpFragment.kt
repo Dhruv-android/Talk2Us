@@ -11,10 +11,8 @@ import android.widget.EditText
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.talk2us.R
-import com.talk2us.ui.login.LoginViewModel
 
 class SendOtpFragment : Fragment() {
     private lateinit var loginViewModel: LoginViewModel
@@ -28,6 +26,29 @@ class SendOtpFragment : Fragment() {
         val v = inflater.inflate(R.layout.fragment_send_otp, container, false)
         val login = v.findViewById<Button>(R.id.sendOtp)
         val phone = v.findViewById<EditText>(R.id.phone)
+
+        phone.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(arg0: Editable) {
+                login.isEnabled = arg0.length == 10
+            }
+
+            override fun beforeTextChanged(
+                s: CharSequence,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {
+            }
+
+            override fun onTextChanged(
+                s: CharSequence,
+                start: Int,
+                before: Int,
+                count: Int
+            ) {
+            }
+        })
+
         loading=v.findViewById(R.id.loading)
         login.setOnClickListener {
             loginViewModel.sendCode(phone.text.toString())

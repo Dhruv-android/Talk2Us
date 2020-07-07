@@ -13,6 +13,7 @@ import com.talk2us.ui.chat.ChatActivity
 import com.talk2us.utils.Constants
 import com.talk2us.utils.PrefManager
 import com.talk2us.utils.Utils
+import java.util.*
 
 
 class LoginActivity : AppCompatActivity() {
@@ -46,7 +47,9 @@ class LoginActivity : AppCompatActivity() {
         })
 
         supportFragmentManager.beginTransaction().replace(R.id.container, SendOtpFragment()).commit()
+
     }
+
 
     private fun signInWithPhoneCredential(it: PhoneAuthCredential) {
         mAuth.signInWithCredential(it).addOnCompleteListener {
