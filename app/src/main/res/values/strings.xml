@@ -16,4 +16,6 @@
     <string name="time_9am">9:00</string>
     <string name="end_session">End Session</string>
     <string name="donate">Donate</string>
+    <string name="navigation_drawer_open">Navigation drawer open</string>
+    <string name="navigation_drawer_close">Navigation drawer close</string>
 </resources>
