@@ -3,6 +3,7 @@ package com.talk2us.ui.chat
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.RelativeLayout
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -14,6 +15,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.iid.FirebaseInstanceId
 import com.talk2us.R
 import com.talk2us.models.Counsellor
+import com.talk2us.ui.account.AccountActivity
 import com.talk2us.ui.session.SessionEndActivity
 import com.talk2us.utils.Constants
 import com.talk2us.utils.FirebaseUtils
@@ -28,8 +30,13 @@ class ChatActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         viewModel = ViewModelProviders.of(this).get(ChatViewModel::class.java)
         val navigationView = findViewById<NavigationView>(R.id.nav_view)
         navigationView.setNavigationItemSelectedListener(this)
+        val v=navigationView.getHeaderView(0)
+        v.setOnClickListener{
+            startActivity(Intent(this,AccountActivity::class.java))
+        }
         sentUnsentMessages()
         setUpDrawerUi()
+
         FirebaseUtils.getInstance().setListeners()
         if(PrefManager.getString(
                 Constants.CLIENT_MESSAGE_TOKEN,
@@ -74,6 +81,9 @@ class ChatActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         if(item.itemId==R.id.endSession){
             startActivity(Intent(applicationContext, SessionEndActivity::class.java))
+        }
+        if(item.itemId==R.id.header){
+            startActivity(Intent(applicationContext,AccountActivity::class.java))
         }
         return true
     }
